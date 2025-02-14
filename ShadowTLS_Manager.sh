@@ -440,15 +440,11 @@ set_backend_port() {
         if ! [[ "$new_port" =~ ^[0-9]+$ ]] || [ "$new_port" -lt 1 ] || [ "$new_port" -gt 65535 ]; then
             print_error "端口号必须在1到65535之间，且为数字"
         else
-            if check_port_in_use_with_prompt "$new_port"; then
-                print_error "端口 ${new_port} 已被占用，请更换端口"
-            else
-                BACKEND_PORT="$new_port"
-                write_config
-                update_service_file
-                print_info "后端服务端口已更新为: ${BACKEND_PORT}"
-                return 0
-            fi
+            BACKEND_PORT="$new_port"
+            write_config
+            update_service_file
+            print_info "后端服务端口已更新为: ${BACKEND_PORT}"
+            return 0
         fi
     done
 }
